@@ -659,7 +659,8 @@ static void UnityPrintExpectedAndActualStringsLen(const char* expected,
 static int UnityIsOneArrayNull(UNITY_INTERNAL_PTR expected,
                                UNITY_INTERNAL_PTR actual,
                                const UNITY_LINE_TYPE lineNumber,
-                               const char* msg)
+                               const char* msg,
+                               ...)
 {
     /* Both are NULL or same pointer */
     if (expected == actual) { return 0; }
@@ -693,8 +694,9 @@ static int UnityIsOneArrayNull(UNITY_INTERNAL_PTR expected,
 void UnityAssertBits(const UNITY_INT mask,
                      const UNITY_INT expected,
                      const UNITY_INT actual,
+                     const UNITY_LINE_TYPE lineNumber,
                      const char* msg,
-                     const UNITY_LINE_TYPE lineNumber)
+                     ...)
 {
     RETURN_IF_FAIL_OR_IGNORE;
 
@@ -736,9 +738,10 @@ void UnityAssertEqualNumber(const UNITY_INT expected,
 void UnityAssertGreaterOrLessOrEqualNumber(const UNITY_INT threshold,
                                            const UNITY_INT actual,
                                            const UNITY_COMPARISON_T compare,
-                                           const char *msg,
                                            const UNITY_LINE_TYPE lineNumber,
-                                           const UNITY_DISPLAY_STYLE_T style)
+                                           const UNITY_DISPLAY_STYLE_T style,
+                                           const char *msg,
+                                           ...)
 {
     int failed = 0;
     RETURN_IF_FAIL_OR_IGNORE;
@@ -783,10 +786,11 @@ void UnityAssertGreaterOrLessOrEqualNumber(const UNITY_INT threshold,
 void UnityAssertEqualIntArray(UNITY_INTERNAL_PTR expected,
                               UNITY_INTERNAL_PTR actual,
                               const UNITY_UINT32 num_elements,
-                              const char* msg,
                               const UNITY_LINE_TYPE lineNumber,
                               const UNITY_DISPLAY_STYLE_T style,
-                              const UNITY_FLAGS_T flags)
+                              const UNITY_FLAGS_T flags,
+                              const char* msg,
+                              ...)
 {
     UNITY_UINT32 elements  = num_elements;
     unsigned int length    = style & 0xF;
@@ -913,9 +917,10 @@ static int UnityFloatsWithin(UNITY_FLOAT delta, UNITY_FLOAT expected, UNITY_FLOA
 void UnityAssertEqualFloatArray(UNITY_PTR_ATTRIBUTE const UNITY_FLOAT* expected,
                                 UNITY_PTR_ATTRIBUTE const UNITY_FLOAT* actual,
                                 const UNITY_UINT32 num_elements,
-                                const char* msg,
                                 const UNITY_LINE_TYPE lineNumber,
-                                const UNITY_FLAGS_T flags)
+                                const UNITY_FLAGS_T flags,
+                                const char* msg,
+                                ...)
 {
     UNITY_UINT32 elements = num_elements;
     UNITY_PTR_ATTRIBUTE const UNITY_FLOAT* ptr_expected = expected;
@@ -961,8 +966,9 @@ void UnityAssertEqualFloatArray(UNITY_PTR_ATTRIBUTE const UNITY_FLOAT* expected,
 void UnityAssertFloatsWithin(const UNITY_FLOAT delta,
                              const UNITY_FLOAT expected,
                              const UNITY_FLOAT actual,
+                             const UNITY_LINE_TYPE lineNumber,
                              const char* msg,
-                             const UNITY_LINE_TYPE lineNumber)
+                             ...)
 {
     RETURN_IF_FAIL_OR_IGNORE;
 
@@ -978,9 +984,10 @@ void UnityAssertFloatsWithin(const UNITY_FLOAT delta,
 
 /*-----------------------------------------------*/
 void UnityAssertFloatSpecial(const UNITY_FLOAT actual,
-                             const char* msg,
                              const UNITY_LINE_TYPE lineNumber,
-                             const UNITY_FLOAT_TRAIT_T style)
+                             const UNITY_FLOAT_TRAIT_T style,
+                             const char* msg,
+                             ...)
 {
     const char* trait_names[] = {UnityStrInf, UnityStrNegInf, UnityStrNaN, UnityStrDet};
     UNITY_INT should_be_trait = ((UNITY_INT)style & 1);
@@ -1055,9 +1062,10 @@ static int UnityDoublesWithin(UNITY_DOUBLE delta, UNITY_DOUBLE expected, UNITY_D
 void UnityAssertEqualDoubleArray(UNITY_PTR_ATTRIBUTE const UNITY_DOUBLE* expected,
                                  UNITY_PTR_ATTRIBUTE const UNITY_DOUBLE* actual,
                                  const UNITY_UINT32 num_elements,
-                                 const char* msg,
                                  const UNITY_LINE_TYPE lineNumber,
-                                 const UNITY_FLAGS_T flags)
+                                 const UNITY_FLAGS_T flags,
+                                 const char* msg,
+                                 ...)
 {
     UNITY_UINT32 elements = num_elements;
     UNITY_PTR_ATTRIBUTE const UNITY_DOUBLE* ptr_expected = expected;
@@ -1103,8 +1111,9 @@ void UnityAssertEqualDoubleArray(UNITY_PTR_ATTRIBUTE const UNITY_DOUBLE* expecte
 void UnityAssertDoublesWithin(const UNITY_DOUBLE delta,
                               const UNITY_DOUBLE expected,
                               const UNITY_DOUBLE actual,
+                              const UNITY_LINE_TYPE lineNumber,
                               const char* msg,
-                              const UNITY_LINE_TYPE lineNumber)
+                              ...)
 {
     RETURN_IF_FAIL_OR_IGNORE;
 
@@ -1119,9 +1128,10 @@ void UnityAssertDoublesWithin(const UNITY_DOUBLE delta,
 
 /*-----------------------------------------------*/
 void UnityAssertDoubleSpecial(const UNITY_DOUBLE actual,
-                              const char* msg,
                               const UNITY_LINE_TYPE lineNumber,
-                              const UNITY_FLOAT_TRAIT_T style)
+                              const UNITY_FLOAT_TRAIT_T style,
+                              const char* msg,
+                              ...)
 {
     const char* trait_names[] = {UnityStrInf, UnityStrNegInf, UnityStrNaN, UnityStrDet};
     UNITY_INT should_be_trait = ((UNITY_INT)style & 1);
@@ -1188,9 +1198,10 @@ void UnityAssertDoubleSpecial(const UNITY_DOUBLE actual,
 void UnityAssertNumbersWithin(const UNITY_UINT delta,
                               const UNITY_INT expected,
                               const UNITY_INT actual,
-                              const char* msg,
                               const UNITY_LINE_TYPE lineNumber,
-                              const UNITY_DISPLAY_STYLE_T style)
+                              const UNITY_DISPLAY_STYLE_T style,
+                              const char* msg,
+                              ...)
 {
     RETURN_IF_FAIL_OR_IGNORE;
 
@@ -1236,10 +1247,11 @@ void UnityAssertNumbersArrayWithin(const UNITY_UINT delta,
                                    UNITY_INTERNAL_PTR expected,
                                    UNITY_INTERNAL_PTR actual,
                                    const UNITY_UINT32 num_elements,
-                                   const char* msg,
                                    const UNITY_LINE_TYPE lineNumber,
                                    const UNITY_DISPLAY_STYLE_T style,
-                                   const UNITY_FLAGS_T flags)
+                                   const UNITY_FLAGS_T flags,
+                                   const char* msg,
+                                   ...)
 {
     UNITY_UINT32 elements = num_elements;
     unsigned int length   = style & 0xF;
@@ -1354,8 +1366,9 @@ void UnityAssertNumbersArrayWithin(const UNITY_UINT delta,
 /*-----------------------------------------------*/
 void UnityAssertEqualString(const char* expected,
                             const char* actual,
+                            const UNITY_LINE_TYPE lineNumber,
                             const char* msg,
-                            const UNITY_LINE_TYPE lineNumber)
+                            ...)
 {
     UNITY_UINT32 i;
 
@@ -1394,8 +1407,9 @@ void UnityAssertEqualString(const char* expected,
 void UnityAssertEqualStringLen(const char* expected,
                                const char* actual,
                                const UNITY_UINT32 length,
+                               const UNITY_LINE_TYPE lineNumber,
                                const char* msg,
-                               const UNITY_LINE_TYPE lineNumber)
+                               ...)
 {
     UNITY_UINT32 i;
 
@@ -1434,9 +1448,10 @@ void UnityAssertEqualStringLen(const char* expected,
 void UnityAssertEqualStringArray(UNITY_INTERNAL_PTR expected,
                                  const char** actual,
                                  const UNITY_UINT32 num_elements,
-                                 const char* msg,
                                  const UNITY_LINE_TYPE lineNumber,
-                                 const UNITY_FLAGS_T flags)
+                                 const UNITY_FLAGS_T flags,
+                                 const char* msg,
+                                 ...)
 {
     UNITY_UINT32 i = 0;
     UNITY_UINT32 j = 0;
@@ -1514,9 +1529,10 @@ void UnityAssertEqualMemory(UNITY_INTERNAL_PTR expected,
                             UNITY_INTERNAL_PTR actual,
                             const UNITY_UINT32 length,
                             const UNITY_UINT32 num_elements,
-                            const char* msg,
                             const UNITY_LINE_TYPE lineNumber,
-                            const UNITY_FLAGS_T flags)
+                            const UNITY_FLAGS_T flags,
+                            const char* msg,
+                            ...)
 {
     UNITY_PTR_ATTRIBUTE const unsigned char* ptr_exp = (UNITY_PTR_ATTRIBUTE const unsigned char*)expected;
     UNITY_PTR_ATTRIBUTE const unsigned char* ptr_act = (UNITY_PTR_ATTRIBUTE const unsigned char*)actual;
