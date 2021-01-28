@@ -566,7 +566,7 @@ void UnityConcludeTest(void)
 }
 
 /*-----------------------------------------------*/
-static void UnityAddMsgIfSpecified(const char* msg, ...)
+static void UnityAddMsgIfSpecified(const char* msg, va_list va)
 {
     if (msg)
     {
@@ -588,10 +588,7 @@ static void UnityAddMsgIfSpecified(const char* msg, ...)
             UnityPrint(UnityStrSpacer);
         }
 #endif
-        va_list va;
-        va_start(va, msg);
         UnityPrintFVA(msg, va);
-        va_end(va);
     }
 }
 
@@ -670,7 +667,12 @@ static int UnityIsOneArrayNull(UNITY_INTERNAL_PTR expected,
     {
         UnityTestResultsFailBegin(lineNumber);
         UnityPrint(UnityStrNullPointerForExpected);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+;
         return 1;
     }
 
@@ -679,7 +681,12 @@ static int UnityIsOneArrayNull(UNITY_INTERNAL_PTR expected,
     {
         UnityTestResultsFailBegin(lineNumber);
         UnityPrint(UnityStrNullPointerForActual);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+;
         return 1;
     }
 
@@ -707,7 +714,12 @@ void UnityAssertBits(const UNITY_INT mask,
         UnityPrintMask((UNITY_UINT)mask, (UNITY_UINT)expected);
         UnityPrint(UnityStrWas);
         UnityPrintMask((UNITY_UINT)mask, (UNITY_UINT)actual);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -729,7 +741,11 @@ void UnityAssertEqualNumber(const UNITY_INT expected,
         UnityPrintNumberByStyle(expected, style);
         UnityPrint(UnityStrWas);
         UnityPrintNumberByStyle(actual, style);
-        UnityAddMsgIfSpecified(msg);
+                va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+;
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -770,7 +786,12 @@ void UnityAssertGreaterOrLessOrEqualNumber(const UNITY_INT threshold,
         if (compare & UNITY_EQUAL_TO)     { UnityPrint(UnityStrOrEqual);  }
         if (compare == UNITY_NOT_EQUAL)   { UnityPrint(UnityStrNotEqual); }
         UnityPrintNumberByStyle(threshold, style);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -779,7 +800,10 @@ void UnityAssertGreaterOrLessOrEqualNumber(const UNITY_INT threshold,
 {                                          \
     UnityTestResultsFailBegin(lineNumber); \
     UnityPrint(UnityStrPointless);         \
-    UnityAddMsgIfSpecified(msg);           \
+    va_list va;                            \
+    va_start(va, msg);                     \
+    UnityAddMsgIfSpecified(msg, va);       \
+    va_end(va);                            \
     UNITY_FAIL_AND_BAIL; }
 
 /*-----------------------------------------------*/
@@ -865,7 +889,12 @@ void UnityAssertEqualIntArray(UNITY_INTERNAL_PTR expected,
             UnityPrintNumberByStyle(expect_val, style);
             UnityPrint(UnityStrWas);
             UnityPrintNumberByStyle(actual_val, style);
-            UnityAddMsgIfSpecified(msg);
+
+            va_list va;
+            va_start(va, msg);
+            UnityAddMsgIfSpecified(msg, va);
+            va_end(va);
+
             UNITY_FAIL_AND_BAIL;
         }
         /* Walk through array by incrementing the pointers */
@@ -951,7 +980,12 @@ void UnityAssertEqualFloatArray(UNITY_PTR_ATTRIBUTE const UNITY_FLOAT* expected,
             UnityPrint(UnityStrElement);
             UnityPrintNumberUnsigned(num_elements - elements - 1);
             UNITY_PRINT_EXPECTED_AND_ACTUAL_FLOAT((UNITY_DOUBLE)*ptr_expected, (UNITY_DOUBLE)*ptr_actual);
-            UnityAddMsgIfSpecified(msg);
+
+            va_list va;
+            va_start(va, msg);
+            UnityAddMsgIfSpecified(msg, va);
+            va_end(va);
+
             UNITY_FAIL_AND_BAIL;
         }
         if (flags == UNITY_ARRAY_TO_ARRAY)
@@ -977,7 +1011,12 @@ void UnityAssertFloatsWithin(const UNITY_FLOAT delta,
     {
         UnityTestResultsFailBegin(lineNumber);
         UNITY_PRINT_EXPECTED_AND_ACTUAL_FLOAT((UNITY_DOUBLE)expected, (UNITY_DOUBLE)actual);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -1043,7 +1082,12 @@ void UnityAssertFloatSpecial(const UNITY_FLOAT actual,
         }
         UnityPrint(trait_names[trait_index]);
 #endif
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -1096,7 +1140,12 @@ void UnityAssertEqualDoubleArray(UNITY_PTR_ATTRIBUTE const UNITY_DOUBLE* expecte
             UnityPrint(UnityStrElement);
             UnityPrintNumberUnsigned(num_elements - elements - 1);
             UNITY_PRINT_EXPECTED_AND_ACTUAL_FLOAT(*ptr_expected, *ptr_actual);
-            UnityAddMsgIfSpecified(msg);
+
+            va_list va;
+            va_start(va, msg);
+            UnityAddMsgIfSpecified(msg, va);
+            va_end(va);
+
             UNITY_FAIL_AND_BAIL;
         }
         if (flags == UNITY_ARRAY_TO_ARRAY)
@@ -1121,7 +1170,12 @@ void UnityAssertDoublesWithin(const UNITY_DOUBLE delta,
     {
         UnityTestResultsFailBegin(lineNumber);
         UNITY_PRINT_EXPECTED_AND_ACTUAL_FLOAT(expected, actual);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -1187,7 +1241,12 @@ void UnityAssertDoubleSpecial(const UNITY_DOUBLE actual,
         }
         UnityPrint(trait_names[trait_index]);
 #endif
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -1237,7 +1296,12 @@ void UnityAssertNumbersWithin(const UNITY_UINT delta,
         UnityPrintNumberByStyle(expected, style);
         UnityPrint(UnityStrWas);
         UnityPrintNumberByStyle(actual, style);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -1351,7 +1415,12 @@ void UnityAssertNumbersArrayWithin(const UNITY_UINT delta,
             UnityPrintNumberByStyle(expect_val, style);
             UnityPrint(UnityStrWas);
             UnityPrintNumberByStyle(actual_val, style);
-            UnityAddMsgIfSpecified(msg);
+
+            va_list va;
+            va_start(va, msg);
+            UnityAddMsgIfSpecified(msg, va);
+            va_end(va);
+
             UNITY_FAIL_AND_BAIL;
         }
         /* Walk through array by incrementing the pointers */
@@ -1398,7 +1467,12 @@ void UnityAssertEqualString(const char* expected,
     {
         UnityTestResultsFailBegin(lineNumber);
         UnityPrintExpectedAndActualStrings(expected, actual);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -1439,7 +1513,12 @@ void UnityAssertEqualStringLen(const char* expected,
     {
         UnityTestResultsFailBegin(lineNumber);
         UnityPrintExpectedAndActualStringsLen(expected, actual, length);
-        UnityAddMsgIfSpecified(msg);
+
+        va_list va;
+        va_start(va, msg);
+        UnityAddMsgIfSpecified(msg, va);
+        va_end(va);
+
         UNITY_FAIL_AND_BAIL;
     }
 }
@@ -1518,7 +1597,12 @@ void UnityAssertEqualStringArray(UNITY_INTERNAL_PTR expected,
                 UnityPrintNumberUnsigned(j);
             }
             UnityPrintExpectedAndActualStrings(expd, act);
-            UnityAddMsgIfSpecified(msg);
+
+            va_list va;
+            va_start(va, msg);
+            UnityAddMsgIfSpecified(msg, va);
+            va_end(va);
+
             UNITY_FAIL_AND_BAIL;
         }
     } while (++j < num_elements);
@@ -1576,7 +1660,12 @@ void UnityAssertEqualMemory(UNITY_INTERNAL_PTR expected,
                 UnityPrintNumberByStyle(*ptr_exp, UNITY_DISPLAY_STYLE_HEX8);
                 UnityPrint(UnityStrWas);
                 UnityPrintNumberByStyle(*ptr_act, UNITY_DISPLAY_STYLE_HEX8);
-                UnityAddMsgIfSpecified(msg);
+
+                va_list va;
+                va_start(va, msg);
+                UnityAddMsgIfSpecified(msg, va);
+                va_end(va);
+
                 UNITY_FAIL_AND_BAIL;
             }
             ptr_exp++;
@@ -1811,10 +1900,12 @@ void UnityFail(const UNITY_LINE_TYPE line, const char* msg, ...)
         {
             UNITY_OUTPUT_CHAR(' ');
         }
+
         va_list va;
         va_start(va, msg);
         UnityPrintFVA(msg, va);
         va_end(va);
+
     }
 
     UNITY_FAIL_AND_BAIL;
@@ -1831,10 +1922,12 @@ void UnityIgnore(const UNITY_LINE_TYPE line, const char* msg, ...)
     {
         UNITY_OUTPUT_CHAR(':');
         UNITY_OUTPUT_CHAR(' ');
+
         va_list va;
         va_start(va, msg);
         UnityPrintFVA(msg, va);
         va_end(va);
+
     }
     UNITY_IGNORE_AND_BAIL;
 }
@@ -1848,10 +1941,12 @@ void UnityMessage(const UNITY_LINE_TYPE line, const char* msg, ...)
     {
       UNITY_OUTPUT_CHAR(':');
       UNITY_OUTPUT_CHAR(' ');
+
       va_list va;
       va_start(va, msg);
       UnityPrintFVA(msg, va);
       va_end(va);
+
     }
     UNITY_PRINT_EOL();
 }
