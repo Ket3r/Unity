@@ -11,7 +11,7 @@ CFLAGS += -std=c99 -pedantic -Wall -Wextra -Werror
 #CFLAGS += -Wconversion #disabled because if falsely complains about the isinf and isnan macros
 CFLAGS += -Wno-switch-enum -Wno-double-promotion
 CFLAGS += -Wbad-function-cast -Wcast-qual -Wold-style-definition -Wshadow -Wstrict-overflow \
-          -Wstrict-prototypes -Wswitch-default -Wundef
+          -Wstrict-prototypes -Wswitch-default -Wundef -Wno-covered-switch-default
 #DEBUG = -O0 -g
 CFLAGS += $(DEBUG)
 UNITY_SUPPORT_64 = -D UNITY_SUPPORT_64
@@ -21,6 +21,7 @@ DEFINES += -D UNITY_OUTPUT_CHAR_HEADER_DECLARATION=putcharSpy\(int\)
 DEFINES += -D UNITY_OUTPUT_FLUSH=flushSpy
 DEFINES += -D UNITY_OUTPUT_FLUSH_HEADER_DECLARATION=flushSpy\(void\)
 DEFINES += $(UNITY_SUPPORT_64) $(UNITY_INCLUDE_DOUBLE)
+DEFINES += -D UNITY_INCLUDE_PRINT_FORMATTED
 SRC1 = ../src/unity.c tests/test_unity_arrays.c build/test_unity_arraysRunner.c
 SRC2 = ../src/unity.c tests/test_unity_core.c build/test_unity_coreRunner.c
 SRC3 = ../src/unity.c tests/test_unity_doubles.c build/test_unity_doublesRunner.c

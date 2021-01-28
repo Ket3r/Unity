@@ -74,6 +74,11 @@ static const char PROGMEM UnityStrDetail2Name[]            = " " UNITY_DETAIL2_N
  * Pretty Printers & Test Result Output Handlers
  *-----------------------------------------------*/
 
+//prototype
+#ifdef UNITY_INCLUDE_PRINT_FORMATTED
+static void UnityPrintFVA(const char* format, va_list va);
+#endif
+
 /*-----------------------------------------------*/
 /* Local helper function to print characters. */
 static void UnityPrintChar(const char* pch)
@@ -561,7 +566,7 @@ void UnityConcludeTest(void)
 }
 
 /*-----------------------------------------------*/
-static void UnityAddMsgIfSpecified(const char* msg)
+static void UnityAddMsgIfSpecified(const char* msg, ...)
 {
     if (msg)
     {
@@ -583,7 +588,10 @@ static void UnityAddMsgIfSpecified(const char* msg)
             UnityPrint(UnityStrSpacer);
         }
 #endif
-        UnityPrint(msg);
+        va_list va;
+        va_start(va, msg);
+        UnityPrintFVA(msg, va);
+        va_end(va);
     }
 }
 
@@ -705,9 +713,10 @@ void UnityAssertBits(const UNITY_INT mask,
 /*-----------------------------------------------*/
 void UnityAssertEqualNumber(const UNITY_INT expected,
                             const UNITY_INT actual,
-                            const char* msg,
                             const UNITY_LINE_TYPE lineNumber,
-                            const UNITY_DISPLAY_STYLE_T style)
+                            const UNITY_DISPLAY_STYLE_T style,
+                            const char* msg,
+                            ...)
 {
     RETURN_IF_FAIL_OR_IGNORE;
 
@@ -1756,7 +1765,7 @@ void UnityPrintF(const UNITY_LINE_TYPE line, const char* format, ...)
  *-----------------------------------------------*/
 
 /*-----------------------------------------------*/
-void UnityFail(const char* msg, const UNITY_LINE_TYPE line)
+void UnityFail(const UNITY_LINE_TYPE line, const char* msg, ...)
 {
     RETURN_IF_FAIL_OR_IGNORE;
 
@@ -1786,14 +1795,17 @@ void UnityFail(const char* msg, const UNITY_LINE_TYPE line)
         {
             UNITY_OUTPUT_CHAR(' ');
         }
-        UnityPrint(msg);
+        va_list va;
+        va_start(va, msg);
+        UnityPrintFVA(msg, va);
+        va_end(va);
     }
 
     UNITY_FAIL_AND_BAIL;
 }
 
 /*-----------------------------------------------*/
-void UnityIgnore(const char* msg, const UNITY_LINE_TYPE line)
+void UnityIgnore(const UNITY_LINE_TYPE line, const char* msg, ...)
 {
     RETURN_IF_FAIL_OR_IGNORE;
 
@@ -1803,13 +1815,16 @@ void UnityIgnore(const char* msg, const UNITY_LINE_TYPE line)
     {
         UNITY_OUTPUT_CHAR(':');
         UNITY_OUTPUT_CHAR(' ');
-        UnityPrint(msg);
+        va_list va;
+        va_start(va, msg);
+        UnityPrintFVA(msg, va);
+        va_end(va);
     }
     UNITY_IGNORE_AND_BAIL;
 }
 
 /*-----------------------------------------------*/
-void UnityMessage(const char* msg, const UNITY_LINE_TYPE line)
+void UnityMessage(const UNITY_LINE_TYPE line, const char* msg, ...)
 {
     UnityTestResultsBegin(Unity.TestFile, line);
     UnityPrint("INFO");
@@ -1817,7 +1832,10 @@ void UnityMessage(const char* msg, const UNITY_LINE_TYPE line)
     {
       UNITY_OUTPUT_CHAR(':');
       UNITY_OUTPUT_CHAR(' ');
-      UnityPrint(msg);
+      va_list va;
+      va_start(va, msg);
+      UnityPrintFVA(msg, va);
+      va_end(va);
     }
     UNITY_PRINT_EOL();
 }
